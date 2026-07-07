@@ -7,17 +7,19 @@ Hyprland (Lua) · Quickshell · Kitty · NVim · ZSH
 ```bash
 # Clone
 git clone https://github.com/pratik2005ko/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 
+# One-command setup
+bash scripts/setup.sh
+```
+
+Or manually:
+
+```bash
 # Configs (symlink)
-ln -sf ~/dotfiles/config/hypr ~/.config/hypr
-ln -sf ~/dotfiles/config/kitty ~/.config/kitty
-ln -sf ~/dotfiles/config/quickshell ~/.config/quickshell
-ln -sf ~/dotfiles/config/fastfetch ~/.config/fastfetch
-ln -sf ~/dotfiles/config/cava ~/.config/cava
-ln -sf ~/dotfiles/config/btop ~/.config/btop
-ln -sf ~/dotfiles/config/nvim ~/.config/nvim
-ln -sf ~/dotfiles/config/starship ~/.config/starship
-ln -sf ~/dotfiles/config/gtk-3.0 ~/.config/gtk-3.0
+for d in hypr kitty quickshell fastfetch cava btop nvim starship gtk-3.0 systemd; do
+  ln -sf ~/dotfiles/config/$d ~/.config/$d
+done
 
 # Shell
 ln -sf ~/dotfiles/home/.zshrc ~/.zshrc
@@ -27,6 +29,16 @@ ln -sf ~/dotfiles/home/.p10k.zsh ~/.p10k.zsh
 chmod +x ~/dotfiles/scripts/*
 mkdir -p ~/.local/bin
 ln -sf ~/dotfiles/scripts/* ~/.local/bin/
+
+# Zinit plugins
+bash ~/dotfiles/scripts/setup-zinit.sh
+
+# Systemd services
+systemctl --user enable nexex.service hyprpolkitagent.service
+
+# Cursor theme
+yay -S bibata-cursor-theme-bin
+hyprctl setcursor Bibata-Modern-Classic 24
 ```
 
 ## What's inside
@@ -39,8 +51,9 @@ ln -sf ~/dotfiles/scripts/* ~/.local/bin/
 | `config/fastfetch/` | System fetch |
 | `config/cava/` | Audio visualizer |
 | `config/nvim/` | Neovim (LazyVim) |
-| `scripts/` | Toggle shader, gaps, eink, touchpad, screenshot, etc. |
-| `home/` | `.zshrc`, `.p10k.zsh` |
+| `config/systemd/user/` | nexex.service, hyprpolkitagent.service |
+| `scripts/` | Toggle shader, gaps, eink, touchpad, screenshot, setup |
+| `home/` | `.zshrc` (with zinit plugins), `.p10k.zsh` |
 
 ## Keybinds
 
