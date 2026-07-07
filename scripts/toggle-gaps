@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+CACHE="$HOME/.cache/gaps-state"
+
+if [[ -f "$CACHE" ]]; then
+    hyprctl keyword general:gaps_in 0
+    hyprctl keyword general:gaps_out 0
+    hyprctl keyword decoration:rounding 0
+    rm "$CACHE"
+else
+    hyprctl keyword general:gaps_in 5
+    hyprctl keyword general:gaps_out 20
+    hyprctl keyword decoration:rounding 10
+    touch "$CACHE"
+fi

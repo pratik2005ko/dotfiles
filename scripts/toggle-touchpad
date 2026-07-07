@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+STATE=$(hyprctl getoption input:touchdevice:enabled | awk 'NR==2{print $2}')
+if [ "$STATE" = "true" ]; then
+  hyprctl keyword input:touchdevice:enabled false
+  notify-send -t 1000 "Touchpad Disabled"
+else
+  hyprctl keyword input:touchdevice:enabled true
+  notify-send -t 1000 "Touchpad Enabled"
+fi

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+CACHE="$HOME/.cache/shader-eink"
+SHADER="$HOME/.config/hypr/shaders/eink.glsl"
+
+if [[ -f "$CACHE" ]]; then
+    hyprctl eval "hl.config({decoration = {screen_shader = ''}})"
+    rm "$CACHE"
+else
+    hyprctl eval "hl.config({decoration = {screen_shader = '$SHADER'}})"
+    touch "$CACHE"
+fi

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+WALL_DIR="$HOME/Pictures/Wallpapers"
+CONFIG_FILE="$HOME/.config/nexland/userconfig.json"
+
+WALLPAPER=$(find "$WALL_DIR" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) | shuf -n1)
+
+if [[ -z "$WALLPAPER" ]]; then
+    notify-send "Nexland" "No wallpapers found in $WALL_DIR"
+    exit 1
+fi
+
+CURRENT_WALL=$(grep -oP '"wallpaperPath":\s*"\K[^"]*' "$CONFIG_FILE")
+if [[ "$WALLPAPER" == "$CURRENT_WALL" ]]; then
+    WALLPAPER=$(find "$WALL_DIR" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) | shuf -n1)
+fi
+
+sed -i "s|\"wallpaperPath\": \".*\"|\"wallpaperPath\": \"$WALLPAPER\"|" "$CONFIG_FILE"
+
+awww img "$WALLPAPER" --transition-type fade --transition-duration 2
+
+notify-send "Nexland" "Wallpaper changed" 2>/dev/null

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+CONFIG_FILE="$HOME/.config/nexland/userconfig.json"
+WALLPAPER=$(grep -oP '"wallpaperPath":\s*"\K[^"]*' "$CONFIG_FILE")
+
+if [[ -z "$WALLPAPER" || ! -f "$WALLPAPER" ]]; then
+    WALLPAPER=$(find "$HOME/Pictures/Wallpapers" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) | shuf -n1)
+fi
+
+# Write hyprpaper config for instant load
+cat > "$HOME/.config/hypr/hyprpaper.conf" << EOF
+splash = false
+preload = $WALLPAPER
+wallpaper = ,$WALLPAPER
+EOF
+
+killall hyprpaper 2>/dev/null
+hyprpaper &>/dev/null &
